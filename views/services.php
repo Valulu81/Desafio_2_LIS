@@ -1,5 +1,6 @@
 <?php
-session_start();
+//session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 //$usuario = $_SESSION['usuario']; 
 $usuario = [
     'nombre' => 'Valeria Paredes',
@@ -59,8 +60,8 @@ $usuario = [
     <header class="background py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Compra lo que quieras!</h1>
-                <p class="lead fw-normal text-white-50 mb-0">Encuentra los mejores servicios, justo lo que necesitas.</p>
+                <h1 class="display-4 fw-bolder text-black">Compra lo que quieras!</h1>
+                <p class="lead fw-normal text-black -50 mb-0">Encuentra los mejores servicios, justo lo que necesitas.</p>
             </div>
         </div>
     </header>
@@ -68,92 +69,36 @@ $usuario = [
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- por si la reigo los cambios los comienzo aca-->
+                 <?php foreach ($servicios as $servicio):?>
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://res.cloudinary.com/dhotqeo6c/image/upload/q_auto/f_auto/v1775883765/diseno-web-corporativa-medida_khpqk8.webp" alt="..." />
+                        <img class="card-img-top" src="<?= htmlspecialchars($servicio['image_url'])?>" alt="<?= htmlspecialchars($servicio['title'])?>" />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <!-- Product name-->
-                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <h5 class="fw-bolder"><?= htmlspecialchars($servicio['title'])?></h5>
                                 <!-- product category -->
-                                <p class="text-muted">Categoría del servicio</p>
+                                <p class="text-muted"><?= htmlspecialchars($servicio['category'])?></p>
                                 <!-- Product price-->
-                                $40.00
+                                $<?= number_format($servicio['price'],2)?>
                             </div>
                         </div>
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://res.cloudinary.com/dhotqeo6c/image/upload/q_auto/f_auto/v1775884544/mantenimiento-de-servidores_evfmrz.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
                             <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Nombre Servicio</h5>
-                                <!-- product category -->
-                                <p class="text-muted">Categoría del servicio</p>
-                                <!-- Product price-->
-                                $40.00
+                                <button class="btn btn-outline-dark mt-auto" data-id="<?= $servicio['id'] ?>">
+                                    <i class="bi-cart-plus me-1"></i>Agregar al carritoo
+                                </button>
                             </div>
                         </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                        </div>
+                    
                     </div>
                 </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://res.cloudinary.com/dhotqeo6c/image/upload/q_auto/f_auto/v1775884595/mejorar-una-red-wifi-empresarial-1-1200x675_oilx3e.webp" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Nombre Servicio</h5>
-                                <!-- product category -->
-                                <p class="text-muted">Categoría del servicio</p>
-                                <!-- Product price-->
-                                $40.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://res.cloudinary.com/dhotqeo6c/image/upload/q_auto/f_auto/v1775885449/software-engineers-working-on-project-and-programm-bducjhl_redimensionar_vmle2t.jpg" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Nombre Servicio</h5>
-                                <!-- product category -->
-                                <p class="text-muted">Categoría del servicio</p>
-                                <!-- Product price-->
-                                $40.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <?php endforeach;?>
+
     </section>
     <!-- Footer-->
     <footer class="py-5 bg-dark">
