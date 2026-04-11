@@ -71,7 +71,7 @@ $usuario = [
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="https://res.cloudinary.com/dhotqeo6c/image/upload/q_auto/f_auto/v1775883765/diseno-web-corporativa-medida_khpqk8.webp" alt="..." />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -92,7 +92,7 @@ $usuario = [
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="https://res.cloudinary.com/dhotqeo6c/image/upload/q_auto/f_auto/v1775884544/mantenimiento-de-servidores_evfmrz.jpg" alt="..." />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -113,7 +113,7 @@ $usuario = [
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="https://res.cloudinary.com/dhotqeo6c/image/upload/q_auto/f_auto/v1775884595/mejorar-una-red-wifi-empresarial-1-1200x675_oilx3e.webp" alt="..." />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -134,7 +134,7 @@ $usuario = [
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <img class="card-img-top" src="https://res.cloudinary.com/dhotqeo6c/image/upload/q_auto/f_auto/v1775885449/software-engineers-working-on-project-and-programm-bducjhl_redimensionar_vmle2t.jpg" alt="..." />
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
