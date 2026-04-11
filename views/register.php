@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Inicio de Sesion</title>
+    <title>Registro</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap icons-->
@@ -15,28 +15,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <!-- styles.css -->
     <link href="../public/styles.css" rel="stylesheet" />
-    <style>
-        .gradient-custom-2 {
-            background-color: #000000;
-        }
-
-        .gradient-form {
-            background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-        }
-
-        @media (min-width: 768px) {
-            .gradient-form {
-                height: 100vh !important;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .gradient-custom-2 {
-                border-top-right-radius: .3rem;
-                border-bottom-right-radius: .3rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -57,7 +35,7 @@
                                     </div>
 
                                     <form>
-                                        <p>Por favor inicia sesion: </p>
+                                        <p>Por favor registrate aqui: </p>
                                         <p>Correo</p>
 
                                         <div data-mdb-input-init class="form-outline mb-4">
@@ -65,18 +43,19 @@
                                                 placeholder="example@example.com" />
                                             
                                         </div>
-                                        <p>Contraseña</p>   
+                                        <p>Contraseña</p>
+
                                         <div data-mdb-input-init class="form-outline mb-4">
                                             <input type="password" id="form2Example22" class="form-control" />
                                         </div>
 
                                         <div class="text-center pt-1 mb-5 pb-1">
-                                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-block fa-lg gradient-custom-2 mb-3 border-0" type="button">Iniciar sesion</button>
+                                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-block fa-lg gradient-custom-2 mb-3 border-0" type="button">Registrarse</button>
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">
-                                            <p class="mb-0 me-2">No tienes una cuenta?</p>
-                                            <a href="register.php" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger"   >Registrarse</a>
+                                            <p class="mb-0 me-2">Ya tienes una cuenta?</p>
+                                            <a href="auth.php" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger"   >Inicia sesion</a>
                                         </div>
 
                                     </form>

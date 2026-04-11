@@ -1,3 +1,13 @@
+<?php
+session_start();
+//$usuario = $_SESSION['usuario']; 
+$usuario = [
+    'nombre' => 'Valeria Paredes',
+    'email' => 'valeria.paredes@example.com',
+    'rol' => 'admin'
+]
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +24,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <!-- styles.css -->
-    <link href="../public/assets/styles.css" rel="stylesheet" />
+    <link href="../public/styles.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -26,8 +36,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="services.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="quotes.php">Cotizaciones</a></li>
-                    <li class="nav-item"><a class="nav-link" href="admin_quotes.php">Cotizaciones de admin</a></li>
+                    <?php if ($usuario['rol'] !== 'admin'): ?>
+                        <li class="nav-item"><a class="nav-link" href="quotes.php">Cotizaciones</a></li>
+                    <?php endif; ?>
+                    <?php if ($usuario['rol'] === 'admin'): ?>
+                        <li class="nav-item"><a class="nav-link" href="admin_quotes.php">Cotizaciones de admin</a></li>
+                        <li class="nav-item"><a class="nav-link" href="admin_services.php">Administrar servicios</a></li>
+                    <?php endif; ?>
                 </ul>
                 <form class="d-flex">
                     <a class="btn btn-outline-dark" href="cart.php">
@@ -40,7 +55,7 @@
         </div>
     </nav>
     <!-- Header-->
-    <header class="bg-dark py-5">
+    <header class="background py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder">Shop in style</h1>
@@ -254,7 +269,7 @@
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+            <p class="m-0 text-center text-white">Valeria Paredes & Andre Preza</p>
         </div>
     </footer>
     <!-- Bootstrap core JS-->
