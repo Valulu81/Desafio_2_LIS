@@ -69,7 +69,7 @@ $quotes = [
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                     </a>
-                    <a class="btn btn-outline-danger" href="cart.php">
+                    <a class="btn btn-outline-danger" href="auth.php">
                         <i class="bi bi-x-circle-fill"></i>
                         salir
                     </a>
