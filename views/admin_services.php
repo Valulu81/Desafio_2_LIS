@@ -1,0 +1,319 @@
+<?php
+session_start();
+//$usuario = $_SESSION['usuario']; 
+$usuario = [
+    'nombre' => 'Valeria Paredes',
+    'email' => 'valeria.paredes@example.com',
+    'rol' => 'admin'
+];
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Homepage - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- styles.css -->
+    <link href="../public/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- navegador-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#!">UDB Academy sv</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="services.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="quotes.php">Cotizaciones</a></li>
+                    <?php if ($usuario['rol'] === 'admin'): ?>
+                        <li class="nav-item"><a class="nav-link" href="admin_services.php">Administrar servicios</a></li>
+                    <?php endif; ?>
+                </ul>
+                <form class="d-flex">
+                    <a class="btn btn-outline-dark me-2" href="cart.php">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    </a>
+                    <a class="btn btn-outline-danger" href="cart.php">
+                        <i class="bi bi-x-circle-fill"></i>
+                        salir
+                    </a>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!-- Header-->
+    <header class="background py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Cambia a tu estilo</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Edita o elimina servicios segun convenga!</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- button create -->
+    <div class="text-center my-4">
+        <a class="btn btn-outline-dark mt-auto" data-bs-toggle="modal" data-bs-target="#modalCrearServicio">
+            ¡Crear un nuevo Servicio!
+        </a>
+    </div>
+
+    <!-- Section-->
+    <section class="pb-5 pt-">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <!-- product category -->
+                                <p class="text-muted">Categoría del servicio</p>
+                                <!-- Product price-->
+                                $40.00
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-outline-dark mt-auto" href="#">Editar</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <!-- product category -->
+                                <p class="text-muted">Categoría del servicio</p>
+                                <!-- Product price-->
+                                $40.00
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-outline-dark mt-auto" href="#">Editar</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <!-- product category -->
+                                <p class="text-muted">Categoría del servicio</p>
+                                <!-- Product price-->
+                                $40.00
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-outline-dark mt-auto" href="#">Editar</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <!-- product category -->
+                                <p class="text-muted">Categoría del servicio</p>
+                                <!-- Product price-->
+                                $40.00
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-outline-dark mt-auto" href="#">Editar</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <!-- product category -->
+                                <p class="text-muted">Categoría del servicio</p>
+                                <!-- Product price-->
+                                $40.00
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-outline-dark mt-auto" href="#">Editar</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <!-- product category -->
+                                <p class="text-muted">Categoría del servicio</p>
+                                <!-- Product price-->
+                                $40.00
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-outline-dark mt-auto" href="#">Editar</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <!-- product category -->
+                                <p class="text-muted">Categoría del servicio</p>
+                                <!-- Product price-->
+                                $40.00
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-outline-dark mt-auto" href="#">Editar</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Nombre Servicio</h5>
+                                <!-- product category -->
+                                <p class="text-muted">Categoría del servicio</p>
+                                <!-- Product price-->
+                                $40.00
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-outline-dark mt-auto" href="#">Editar</a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- modal -->
+    <div class="modal fade" id="modalCrearServicio" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear nuevo servicio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del servicio</label>
+                        <input type="text" class="form-control" placeholder="Nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoría</label>
+                        <input type="text" class="form-control" placeholder="Categoría">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Precio</label>
+                        <input type="number" class="form-control" placeholder="0.00">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Imagen</label>
+                        <input type="text" class="form-control" placeholder="URL de la imagen">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-dark">Crear servicio</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Valeria Paredes & Andre Preza</p>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="../public/assets/scripts.js"></script>
+</body>
+
+</html>

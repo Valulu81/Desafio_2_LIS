@@ -53,24 +53,25 @@ $quotes = [
     <!-- navegador-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#!">Start Bootstrap</a>
+            <a class="navbar-brand" href="#!">UDB Academy sv</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="services.php">Home</a></li>
-                    <?php if ($usuario['rol'] !== 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link" href="quotes.php">Cotizaciones</a></li>
-                    <?php endif; ?>
+                    <li class="nav-item"><a class="nav-link" href="quotes.php">Cotizaciones</a></li>
                     <?php if ($usuario['rol'] === 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link" href="admin_quotes.php">Cotizaciones de admin</a></li>
                         <li class="nav-item"><a class="nav-link" href="admin_services.php">Administrar servicios</a></li>
                     <?php endif; ?>
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-dark" href="cart.php">
+                    <a class="btn btn-outline-dark me-2" href="cart.php">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    </a>
+                    <a class="btn btn-outline-danger" href="cart.php">
+                        <i class="bi bi-x-circle-fill"></i>
+                        salir
                     </a>
                 </form>
             </div>
@@ -80,8 +81,8 @@ $quotes = [
     <header class="background py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Confirma tu compra!</h1>
-                <p class="lead fw-normal text-white-50 mb-0">Entre mas compres tendras mas recompensas.</p>
+                <h1 class="display-4 fw-bolder">Revisa tus cotizaciones</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Encuentra todas tus cotizaciones aquí.</p>
             </div>
         </div>
     </header>
@@ -107,7 +108,7 @@ $quotes = [
                         <td><?= $q['fecha'] ?></td>
                         <td>$<?= number_format($q['total'], 2) ?></td>
                         <td><?= $q['cantidadServicios'] ?></td>
-                        <td><button class="btn btn-info btn-sm"
+                        <td><button class="btn btn-dark btn-sm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#detalleModal"
                                 data-quote='<?= htmlspecialchars(json_encode($q), ENT_QUOTES, 'UTF-8') ?>'>
