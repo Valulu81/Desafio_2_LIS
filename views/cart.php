@@ -7,7 +7,7 @@ $usuario = [
     'rol' => 'admin'
 ]
 ?>
-
+hola mundo 
 <!DOCTYPE html>
 <html lang="en">
 
