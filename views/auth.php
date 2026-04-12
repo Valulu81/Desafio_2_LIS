@@ -1,3 +1,7 @@
+<?php
+$error   = $error   ?? '';
+$success = $success ?? '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,22 +54,27 @@
                             <div class="col-lg-6">
                                 <div class="card-body p-md-5 mx-md-4">
 
-                                    <form>
+                                    <form method="POST" action="../public/index.php?action=login">
+                                        <!-- cambios aqui por si se jode algo -->
+                                        <?php if(!empty($error)): ?>
+                                        <div class="alert alert-danger"><?= $error ?></div>
+                                        <?php endif;?>
+                                        <?php if(!empty($success)): ?>
+                                        <div class="alert alert-success"><?= $success ?></div>
+                                        <?php endif;?>
+
                                         <p class="fw-bolder">Por favor inicia sesion para continuar: </p>
                                         <p>Correo</p>
-
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <input type="email" id="form2Example11" class="form-control"
-                                                placeholder="example@example.com" />
-
+                                        <div class="form-outline mb-4">
+                                            <input input type="text" name="email" class="form-control" placeholder="example@example.com" required  />
                                         </div>
                                         <p>Contraseña</p>
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <input type="password" id="form2Example22" class="form-control" />
+                                        <div class="form-outline mb-4">
+                                            <input type="password" name="password" class="form-control" required />
                                         </div>
 
                                         <div class="text-center pt-1 mb-5 pb-1">
-                                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-block fa-lg gradient-custom-2 mb-3 border-0" type="button">Iniciar sesion</button>
+                                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-block fa-lg gradient-custom-2 mb-3 border-0" type="submit">Iniciar sesion</button>
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">

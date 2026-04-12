@@ -1,12 +1,14 @@
 <?php
-//session_start();
-if (session_status() === PHP_SESSION_NONE) session_start();
-//$usuario = $_SESSION['usuario']; 
 $usuario = [
-    'nombre' => 'Valeria Paredes',
-    'email' => 'valeria.paredes@example.com',
-    'rol' => 'admin'
-]
+    'nombre' => $_SESSION['user_name'] ?? 'Usuario',
+    'rol'    => $_SESSION['user_role'] ?? 'user'
+];
+$cartCount = 0;
+if (isset($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $item) {
+        $cartCount += $item['quantity'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +38,7 @@ $usuario = [
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="services.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="../public/index.php?action=services">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="quotes.php">Cotizaciones</a></li>
                     <?php if ($usuario['rol'] === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link" href="admin_services.php">Administrar servicios</a></li>
@@ -48,7 +50,7 @@ $usuario = [
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                     </a>
-                    <a class="btn btn-outline-danger" href="auth.php">
+                    <a class="btn btn-outline-danger" href="../public/index.php?action=auth">
                         <i class="bi bi-x-circle-fill"></i>
                         salir
                     </a>

@@ -1,3 +1,7 @@
+<?php
+$error   = $error   ?? '';
+$success = $success ?? '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,33 +31,36 @@
                         <div class="row g-0">
                             <div class="col-lg-6">
                                 <div class="card-body p-md-5 mx-md-4">
-                                    <form>
+                                   <form method="POST" action="../public/index.php?action=register">
+                                        <?php if (!empty($error)): ?>
+                                           <div class="alert alert-danger"><?= $error ?></div>
+                                        <?php endif; ?>    
                                         <p class="fw-bolder">Por favor registrate aqui: </p>
                                         <p>Nombre</p>
                                         <div data-mdb-input-init class="form-outline mb-1">
-                                            <input type="text" id="nombre" class="form-control" placeholder="Camila Sanchez"/>
+                                            <input type="text" name="name" class="form-control" placeholder="Camila Sanchez" required />
                                         </div>
                                         <p>Correo</p>
                                         <div data-mdb-input-init class="form-outline mb-1">
-                                            <input type="email" id="email" class="form-control"
-                                                placeholder="example@example.com" />
+                                            <input type="email" name="email" class="form-control" placeholder="example@example.com" required />
                                         </div>
                                         <p>Empresa</p>
                                         <div data-mdb-input-init class="form-outline mb-1">
-                                            <input type="text" id="empresa" class="form-control" placeholder="Nombre de la empresa"/>
+                                           <input type="text" name="company" class="form-control" placeholder="Nombre de la empresa" />
                                         </div>
                                         <p>Telefono</p>
                                         <div data-mdb-input-init class="form-outline mb-1">
-                                            <input type="text" id="telefono" class="form-control" placeholder="123-456-7890"/>
+                                            <input type="text" name="telephone" class="form-control" placeholder="123-456-7890" />
                                         </div>
                                         <p>Contraseña</p>
                                         <div data-mdb-input-init class="form-outline mb-3">
-                                            <input type="password" id="password" class="form-control" placeholder="minimo 8 caracteres" minlength="8"/>
+                                            <input type="password" name="password" class="form-control" placeholder="minimo 8 caracteres" minlength="8" required />
                                         </div>
-
-
+                                        <p>Confirmar Contraseña</p>
+                                        <div class="form-outline mb-3">
+                                            <input type="password" name="confirm_password" class="form-control" placeholder="misma contra"></div>
                                         <div class="text-center pt-1  pb-1">
-                                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-block fa-lg gradient-custom-2 mb-3 border-0" type="button">Registrarse</button>
+                                            <button class="btn btn-danger btn-block fa-lg mb-3 border-0" type="submit">Registrarse</button>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-center pb-4">
                                             <p class="mb-0 me-2">Ya tienes una cuenta?</p>

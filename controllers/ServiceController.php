@@ -89,7 +89,7 @@ class ServiceController {
     /*Esto es lo que verifica el logeo */
     private function requireLogin(){
         if(!isset($_SESSION['user_id'] )){
-            header('Location: ../views/auth.php');
+            header('Location: index.php?action=login');
             exit;
         }
     }
