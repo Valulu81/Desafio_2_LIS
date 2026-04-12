@@ -2,7 +2,7 @@
 //se va encargar de buscar a los usuarios para el logiiing y 
 // para insertar a los nuevos en el registro tambien 
 
-require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../config/database.php';
 
 class User{
     private $db;

@@ -28,6 +28,23 @@ foreach ($_SESSION['cart'] as $item) {
     $totalItems += $item['quantity'];
 }
 
-/*Aca vas a pegar los mismo que pusiste en la regla de
-negocios del update */
-$descuento=0;
+/* Descuento del tipo A*/
+if ($subtotal >= 2500) {
+    $descuento = $subtotal * 0.15;
+} elseif ($subtotal >= 1000) {
+    $descuento = $subtotal * 0.10;
+} elseif ($subtotal >= 500) {
+    $descuento = $subtotal * 0.05;
+}
+$iva   = ($subtotal - $descuento) * 0.13;
+$total = $subtotal - $descuento + $iva;
+
+echo json_encode([
+    'success'    => true,
+    'totalItems' => $totalItems,
+    'subtotal'   => number_format($subtotal, 2),
+    'descuento'  => number_format($descuento, 2),
+    'iva'        => number_format($iva, 2),
+    'total'      => number_format($total, 2)
+]);
+exit;

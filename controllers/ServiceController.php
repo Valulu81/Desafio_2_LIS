@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/Service.php';
+// agrega al inicio del archivo:
+if (session_status() === PHP_SESSION_NONE) session_start();
 
 class ServiceController {
     private $serviceModel;

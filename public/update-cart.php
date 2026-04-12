@@ -39,6 +39,23 @@ foreach ($_SESSION['cart'] as $item) {
     $totalItems += $item['quantity'];
 }
 
-/* ACa pone la regla del negocio no se cual vas a ocupar porque la 
-vez pasada me dijiste que daba error xd*/
-$descuento =0; //mi aportacion 
+/* Descuento del tipo A*/
+if ($subtotal >= 2500) {
+    $descuento = $subtotal * 0.15;
+} elseif ($subtotal >= 1000) {
+    $descuento = $subtotal * 0.10;
+} elseif ($subtotal >= 500) {
+    $descuento = $subtotal * 0.05;
+}
+$iva   = ($subtotal - $descuento) * 0.13;
+$total = $subtotal - $descuento + $iva;
+
+echo json_encode([
+    'success'    => true,
+    'totalItems' => $totalItems,
+    'subtotal'   => number_format($subtotal, 2),
+    'descuento'  => number_format($descuento, 2),
+    'iva'        => number_format($iva, 2),
+    'total'      => number_format($total, 2)
+]);
+exit;
