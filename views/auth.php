@@ -79,7 +79,7 @@ $success = $success ?? '';
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">
                                             <p class="mb-0 me-2">No tienes una cuenta?</p>
-                                            <a href="register.php" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Registrarse</a>
+                                            <a href="../public/index.php?action=register" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Registrarse</a>
                                         </div>
 
                                     </form>

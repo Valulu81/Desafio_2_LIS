@@ -64,7 +64,7 @@ $success = $success ?? '';
                                         </div>
                                         <div class="d-flex align-items-center justify-content-center pb-4">
                                             <p class="mb-0 me-2">Ya tienes una cuenta?</p>
-                                            <a href="auth.php" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Inicia sesion</a>
+                                            <a href="../public/index.php?action=login" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Inicia sesion</a>
                                         </div>
 
                                     </form>
