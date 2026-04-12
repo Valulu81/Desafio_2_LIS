@@ -39,16 +39,15 @@ if (isset($_SESSION['cart'])) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="../public/index.php?action=services">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="quotes.php">Cotizaciones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../views/quotes.php">Cotizaciones</a></li>
                     <?php if ($usuario['rol'] === 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link" href="admin_services.php">Administrar servicios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../views/admin_services.php">Administrar servicios</a></li>
                     <?php endif; ?>
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-dark me-2" href="cart.php">
+                    <a class="btn btn-outline-dark me-2" href="../views/cart.php">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                     </a>
                     <a class="btn btn-outline-danger" href="../public/index.php?action=auth">
                         <i class="bi bi-x-circle-fill"></i>
@@ -72,34 +71,34 @@ if (isset($_SESSION['cart'])) {
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <!-- por si la reigo los cambios los comienzo aca-->
-                 <?php foreach ($servicios as $servicio):?>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="<?= htmlspecialchars($servicio['image_url'])?>" alt="<?= htmlspecialchars($servicio['title'])?>" />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder"><?= htmlspecialchars($servicio['title'])?></h5>
-                                <!-- product category -->
-                                <p class="text-muted"><?= htmlspecialchars($servicio['category'])?></p>
-                                <!-- Product price-->
-                                $<?= number_format($servicio['price'],2)?>
+                <?php foreach ($servicios as $servicio): ?>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="<?= htmlspecialchars($servicio['image_url']) ?>" alt="<?= htmlspecialchars($servicio['title']) ?>" />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder"><?= htmlspecialchars($servicio['title']) ?></h5>
+                                    <!-- product category -->
+                                    <p class="text-muted"><?= htmlspecialchars($servicio['category']) ?></p>
+                                    <!-- Product price-->
+                                    $<?= number_format($servicio['price'], 2) ?>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <button class="btn btn-outline-dark mt-auto" data-id="<?= $servicio['id'] ?>">
-                                    <i class="bi-cart-plus me-1"></i>Agregar al carritoo
-                                </button>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <button class="btn btn-outline-dark mt-auto" data-id="<?= $servicio['id'] ?>">
+                                        <i class="bi-cart-plus me-1"></i>Agregar al carritoo
+                                    </button>
+                                </div>
                             </div>
+
                         </div>
-                    
                     </div>
-                </div>
-                <?php endforeach;?>
+                <?php endforeach; ?>
 
     </section>
     <!-- Footer-->
