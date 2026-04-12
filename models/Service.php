@@ -54,12 +54,8 @@ class Service {
         if (!empty($errores)) {
             return ['success' => false, 'errors' => $errores];
         }
-
-        // CORRECCIÓN: 4 columnas, 4 placeholders (?) y nombres correctos
         $sql = "INSERT INTO services (title, category, price, image_url) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-
-        try {
             $stmt->execute([
                 htmlspecialchars(trim($data['title'])),
                 $data['category'],
@@ -67,9 +63,6 @@ class Service {
                 htmlspecialchars(trim($data['image_url']))
             ]);
             return ['success' => true, 'id' => $this->db->lastInsertId()];
-        } catch (PDOException $e) {
-            return ['success' => false, 'errors' => [$e->getMessage()]];
-        }
     }
 
     public function update($id, $data) {
@@ -89,7 +82,7 @@ class Service {
         ]);
         return ['success' => true];
     }
-
+    
     public function delete($id) {
         // Verificar si está en uso en quote_services (llave foránea)
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM quote_services WHERE service_id = ?");
