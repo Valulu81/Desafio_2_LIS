@@ -15,9 +15,9 @@ if (!isset($_SESSION['user_id'])) {
 
 // Eliminamos el servicio del carrito usando unset
 $id = (int)($_POST['id'] ?? 0);
-if (isset($_SESSION['cart'][$id])) {
-    unset($_SESSION['cart'][$id]);
-}
+
+unset($_SESSION['cart'][$id]);
+
 
 // lo mismo que el update se copila los datos para reclaular
 $subtotal   = 0;

@@ -117,7 +117,7 @@ $cartCount = $cartCount ?? 0;
                                                 <!-- Muestra la cantidad actual, se actualiza con JS -->
                                                 <span id="qty-<?= $item['id'] ?>"><?= $item['quantity'] ?></span>
                                                 <!-- Botón más -->
-                                                <button class="btn btn-outline-dark btn-sm "
+                                                <button class="btn btn-outline-dark btn-sm"
                                                     onclick="actualizarCantidad(<?= $item['id'] ?>, <?= $item['quantity'] + 1 ?>)">
                                                     +
                                                 </button>
@@ -174,10 +174,8 @@ $cartCount = $cartCount ?? 0;
                                 Cotizar
                             </button>
                             <!-- Botón vaciar carrito -->
-                            <button class="btn btn-outline-danger w-100"
-                                onclick="vaciarCarrito()">
-                                Vaciar carrito
-                            </button>
+                            <button class="btn btn-outline-danger w-100" onclick="vaciarCarrito()">Vaciar carrito</button>
+
                         </div>
                     </div>
                 </div>
@@ -265,22 +263,25 @@ $cartCount = $cartCount ?? 0;
         // ── VACIAR CARRITO ────────────────────────────────────────────────
         // Elimina todos los items del carrito de una vez
         function vaciarCarrito() {
-            fetch('../public/remove-from-cart.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'vaciar=1'
-                })
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(data) {
-                    if (data.success) {
-                        // Recargamos la página para mostrar el carrito vacío
-                        location.reload();
-                    }
-                });
+            if (!confirm('¿Vaciar todo el carrito?')) return;
+
+            const filas = document.querySelectorAll('[id^="fila-"]');
+            const ids = [...filas].map(f => f.id.replace('fila-', ''));
+
+            if (ids.length === 0) return;
+
+            Promise.all(
+                    ids.map(id =>
+                        fetch('../public/remove-from-cart.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: 'id=' + id
+                        }).then(r => r.json())
+                    )
+                ).then(() => location.reload())
+                .catch(() => location.reload());
         }
 
         // ── GENERAR COTIZACIÓN ────────────────────────────────────────────
