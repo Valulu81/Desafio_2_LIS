@@ -44,11 +44,12 @@ if (isset($_SESSION['cart'][$id])) {
     }
     $_SESSION['cart'][$id]['quantity']++;
 } else {
-        $_SESSION['cart'][$id] = [
-        'id'       => $servicio['id'],
-        'title'    => $servicio['title'],
-        'price'    => $servicio['price'],
-        'quantity' => 1
+    $_SESSION['cart'][$id] = [
+        'id'        => $servicio['id'],
+        'title'     => $servicio['title'],
+        'price'     => $servicio['price'],
+        'quantity'  => 1,
+        'image_url' => $servicio['image_url'] ?? ''
     ];
 }
 

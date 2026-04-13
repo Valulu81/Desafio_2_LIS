@@ -86,7 +86,6 @@ document.querySelectorAll('.btn-borrar').forEach(btn => {
 
 
 // --- AGREGAR AL CARRITO ---
-// --- AGREGAR AL CARRITO ---
 document.querySelectorAll('.btn-agregar-carrito').forEach(btn => {
     btn.addEventListener('click', () => {
         const data = new FormData();
@@ -115,7 +114,7 @@ document.querySelectorAll('.btn-agregar-carrito').forEach(btn => {
 
 // PARA EL CARRITO
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("../public/index.php?action=cartSummary")
+    fetch("../views/cart.php")
         .then(res => res.json())
         .then(data => {
             document.getElementById("subtotal").textContent = "€ " + data.subtotal.toFixed(2);

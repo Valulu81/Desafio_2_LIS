@@ -4,7 +4,7 @@ $usuario = [
     'nombre' => $_SESSION['user_name'] ?? 'Usuario',
     'rol'    => $_SESSION['user_role'] ?? 'user'
 ];
-
+$cart = [];
 ?>
 
 <!DOCTYPE html>
@@ -80,17 +80,17 @@ $usuario = [
                         <div class="row border-top border-bottom">
                             <div class="row main align-items-center">
                                 <div class="col-2">
-                                    <img class="img-fluid" src="<?= $item['image_url'] ?>" alt="<?= $item['title'] ?>">
+                                    <img class="img-fluid" src="<?= $item['image_url'] ?? '' ?>" alt="<?= $item['title'] ?? '' ?>">
                                 </div>
                                 <div class="col">
-                                    <div class="row text-muted"><?= $item['title'] ?></div>
-                                    <div class="row"><?= $item['description'] ?></div>
+                                    <div class="row text-muted"><?= $item['title'] ?? '' ?></div>
                                 </div>
-                                <div class="col">Cantidad: <?= $item['quantity'] ?></div>
-                                <div class="col">&dollar;<?= $item['price'] ?><span class="close">&#10005;</span></div>
+                                <div class="col">Cantidad: <?= $item['quantity'] ?? 1 ?></div>
+                                <div class="col">&dollar;<?= $item['price'] ?? '0.00' ?><span class="close">&#10005;</span></div>
                             </div>
                         </div>
                     <?php endforeach; ?>
+
 
                     <!-- parte del pago -->
                 </div>
@@ -99,29 +99,16 @@ $usuario = [
                         <h5><b>Summary</b></h5>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col" style="padding-left:0;">Subtotal</div>
-                        <div class="col text-right" id="subtotal">--</div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col" style="padding-left:0;">Descuento</div>
-                        <div class="col text-right" id="discount">--</div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col" style="padding-left:0;">Impuesto</div>
-                        <div class="col text-right" id="tax">--</div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col">TOTAL PRICE</div>
-                        <div class="col text-right" id="total">--</div>
-                    </div>
-
+                    <?php
+                    require_once __DIR__ . '/../controllers/CartController.php';
+                    $controller = new CartController();
+                    $controller->summary();
+                    ?>
                     <button class="btn fs-6">Cotizar</button>
                     <button class="btn mt-2 bg-danger fs-6 text">Vaciar Carrito</button>
                 </div>
+
+
             </div>
 
         </div>

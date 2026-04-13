@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../config/database.php';
 
 class Service {
+
+
     const CATEGORIAS_VALIDAS = [
         'Servicios Tecnológicos',
         'Marketing y Diseño', // Corregido: decía "Maketing" en tu código
