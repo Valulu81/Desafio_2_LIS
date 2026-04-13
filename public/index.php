@@ -4,6 +4,8 @@ session_start();
 require_once '../config/database.php';
 require_once '../controllers/AuthController.php';
 require_once '../controllers/ServiceController.php';
+require_once '../controllers/QuoteController.php';
+require_once '../controllers/CartController.php';
 
 $action = $_GET['action'] ?? 'login';
 
@@ -33,9 +35,18 @@ switch ($action) {
         $controller->adminIndex();
         break;
 
+    case 'quotes':
+        $controller = new QuoteController();
+        $controller->index();
+        break;
+
+    case 'cart':
+        $controller = new CartController();
+        $controller->index();
+        break;
+
     default:
         $controller = new AuthController();
         $controller->login();
         break;
 }
-?>

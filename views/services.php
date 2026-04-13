@@ -3,6 +3,12 @@ $usuario = [
     'nombre' => $_SESSION['user_name'] ?? 'Usuario',
     'rol'    => $_SESSION['user_role'] ?? 'user'
 ];
+$cartCount = 0;
+if (isset($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $item) {
+        $cartCount += $item['quantity'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,15 +39,18 @@ $usuario = [
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="../public/index.php?action=services">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../views/quotes.php">Cotizaciones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="quotes.php">Cotizaciones</a></li>
                     <?php if ($usuario['rol'] === 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link active" href="../public/index.php?action=admin">Administrar servicios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="admin_services.php">Administrar servicios</a></li>
                     <?php endif; ?>
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-dark me-2" href="../views/cart.php">
+                    <a class="btn btn-outline-dark me-2" href="../public/index.php?action=cart">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart-count">
+                            <?= $cartCount ?>
+                        </span>
                     </a>
                     <a class="btn btn-outline-danger" href="../public/index.php?action=auth">
                         <i class="bi bi-x-circle-fill"></i>
@@ -56,11 +65,10 @@ $usuario = [
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder text-white">Compra lo que quieras!</h1>
-                <p class="lead fw-normal text-white -50 mb-0">Encuentra los mejores servicios, justo lo que necesitas.</p>
+                <p class="lead fw-normal text-white mb-0">Encuentra los mejores servicios, justo lo que necesitas.</p>
             </div>
         </div>
     </header>
-
     <!-- Section-->
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
@@ -85,16 +93,9 @@ $usuario = [
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
-                                    <button class="btn btn-outline-dark mt-auto btn-agregar-carrito"
-                                        data-id="<?= $servicio['id'] ?>"
-                                        data-title="<?= htmlspecialchars($servicio['title']) ?>"
-                                        data-price="<?= $servicio['price'] ?>"
-                                        data-image_url="<?= htmlspecialchars($servicio['image_url']) ?>"
-                                        data-quantity="1">
-                                        <i class="bi-cart-plus me-1 "></i> Agregar al carrito
+                                    <button class="btn btn-outline-dark mt-auto btn-agregar" data-id="<?= $servicio['id'] ?>">
+                                        <i class="bi-cart-plus me-1"></i> Agregar al carrito
                                     </button>
-
-
                                 </div>
                             </div>
 
@@ -112,7 +113,7 @@ $usuario = [
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="../public/main.js"></script>
+    <script src="../public/cart.js"></script>
 </body>
 
 </html>

@@ -1,68 +1,279 @@
 <?php
-require_once __DIR__ . '/../config/Database.php';
+// models/Quote.php
+// Esta clase maneja todo lo relacionado a cotizaciones.
+// Se encarga de:
+// 1. Generar el código único de cotización (COT-2026-0001)
+// 2. Calcular subtotal, descuento, IVA y total
+// 3. Guardar la cotización y sus servicios en la BD
+// 4. Obtener cotizaciones para mostrarlas en la vista
+
+require_once __DIR__ . '/../config/database.php';
 
 class Quote
 {
+
+    // Propiedades privadas requeridas por el proyecto
+    private $codigo;
+    private $cliente;
+    private $items;
+    private $subtotal;
+    private $descuento;
+    private $iva;
+    private $total;
     private $db;
 
     public function __construct()
     {
-        $this->db = Database::getInstance()->getConnection();
+        $this->db    = Database::getInstance()->getConnection();
+        $this->items = []; // El carrito empieza vacío
     }
 
-    public function createQuote(array $data): bool
+    // ── GETTERS ───────────────────────────────────────────────────────────
+    public function getCodigo()
     {
-        $sql  = "INSERT INTO quotes (code, client_id, total) VALUES (:code, :client_id, :total)";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute($data);
+        return $this->codigo;
+    }
+    public function getCliente()
+    {
+        return $this->cliente;
+    }
+    public function getItems()
+    {
+        return $this->items;
+    }
+    public function getSubtotal()
+    {
+        return $this->subtotal;
+    }
+    public function getDescuento()
+    {
+        return $this->descuento;
+    }
+    public function getIva()
+    {
+        return $this->iva;
+    }
+    public function getTotal()
+    {
+        return $this->total;
     }
 
-    public function getQuotesByClientId(int $clientId): array
+    // ── AGREGAR ITEM ──────────────────────────────────────────────────────
+    // Agrega un servicio a la lista de items de la cotización
+    public function agregarItem($item)
     {
-        $sql = "SELECT q.id, q.code, q.total, q.created_at, q.valid_until,
-                    u.name AS client_name, u.email, u.telephone, u.company,
-                    (SELECT COUNT(*) FROM quote_services WHERE quote_id = q.id) AS service_count
-                FROM quotes q
-                JOIN users u ON q.client_id = u.id
-                WHERE q.client_id = :client_id
-                ORDER BY q.created_at DESC";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['client_id' => $clientId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->items[] = $item;
     }
 
-    public function getAllQuotes(): array
+    // ── CALCULAR SUBTOTAL ─────────────────────────────────────────────────
+    // Suma precio * cantidad de todos los servicios del carrito
+    public function calcularSubtotal()
     {
-        $sql = "SELECT q.id, q.code, q.total, q.created_at, q.valid_until,
-                    u.name AS client_name, u.email, u.telephone, u.company,
-                    (SELECT COUNT(*) FROM quote_services WHERE quote_id = q.id) AS service_count
-                FROM quotes q
-                JOIN users u ON q.client_id = u.id
-                ORDER BY q.created_at DESC";
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->subtotal = 0;
+        foreach ($this->items as $item) {
+            $this->subtotal += $item['price'] * $item['quantity'];
+        }
+        return $this->subtotal;
     }
 
-    public function getQuoteByCode(string $code): ?array
+    // ── CALCULAR DESCUENTO ────────────────────────────────────────────────
+    // Aplica descuento según Opción A - Descuento por Monto:
+    // $500 - $999     → 5%
+    // $1000 - $2499   → 10%
+    // $2500 o más     → 15%
+    public function calcularDescuento()
     {
-        $sql = "SELECT q.id, q.client_id, q.code, q.total, q.created_at, q.valid_until,
-            u.name AS client_name, u.email, u.telephone, u.company,
-                (SELECT COUNT(*) FROM quote_services WHERE quote_id = q.id) AS service_count
-            FROM quotes q
-            JOIN users u ON q.client_id = u.id
-            WHERE q.code = :code";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['code' => $code]);
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        if ($this->subtotal >= 2500) {
+            $this->descuento = $this->subtotal * 0.15;
+        } elseif ($this->subtotal >= 1000) {
+            $this->descuento = $this->subtotal * 0.10;
+        } elseif ($this->subtotal >= 500) {
+            $this->descuento = $this->subtotal * 0.05;
+        } else {
+            $this->descuento = 0;
+        }
+        return $this->descuento;
     }
 
-    public function generateUniqueCode(): string
+    // ── CALCULAR IVA ──────────────────────────────────────────────────────
+    // IVA del 13% aplicado sobre (subtotal - descuento)
+    public function calcularIVA()
     {
-        $year = date('Y');
-        $sql  = "SELECT COUNT(*) FROM quotes WHERE YEAR(created_at) = :year";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['year' => $year]);
-        $count = $stmt->fetchColumn() + 1;
-        return sprintf('COT-%s-%04d', $year, $count);
+        $this->iva = ($this->subtotal - $this->descuento) * 0.13;
+        return $this->iva;
+    }
+
+    // ── CALCULAR TOTAL ────────────────────────────────────────────────────
+    // Total = subtotal - descuento + IVA
+    public function calcularTotal()
+    {
+        $this->total = $this->subtotal - $this->descuento + $this->iva;
+        return $this->total;
+    }
+
+    // ── GENERAR CÓDIGO (método estático) ──────────────────────────────────
+    // Genera el código único con formato COT-2026-####
+    // Es estático porque no necesita una instancia de Quote para funcionar,
+    // simplemente consulta la BD y genera el siguiente número consecutivo
+    public static function generarCodigo()
+    {
+        $db   = Database::getInstance()->getConnection();
+        $anio = date('Y'); // Año actual, ej: 2026
+
+        // Contamos cuántas cotizaciones hay este año para el consecutivo
+        $stmt = $db->prepare(
+            "SELECT COUNT(*) FROM quotes WHERE YEAR(created_at) = ?"
+        );
+        $stmt->execute([$anio]);
+        $count = $stmt->fetchColumn();
+
+        // El consecutivo empieza en 1 y se formatea con 4 dígitos: 0001, 0002...
+        $consecutivo = str_pad($count + 1, 4, '0', STR_PAD_LEFT);
+
+        return 'COT-' . $anio . '-' . $consecutivo;
+    }
+
+    // ── VALIDAR MONTO (método estático) ───────────────────────────────────
+    // Verifica que el subtotal cumpla el mínimo de $100
+    // requerido por las validaciones del proyecto
+    public static function validarMonto($subtotal)
+    {
+        return $subtotal >= 100;
+    }
+
+    // ── GENERAR COTIZACIÓN ────────────────────────────────────────────────
+    // Este es el método principal — orquesta todo:
+    // 1. Valida los datos del cliente y el carrito
+    // 2. Hace todos los cálculos
+    // 3. Guarda en la BD
+    // 4. Devuelve el resultado
+
+    public function generar($clienteData, $cart)
+    {
+        // Validamos que el carrito no esté vacío
+        if (empty($cart)) {
+            return ['success' => false, 'message' => 'El carrito está vacío'];
+        }
+
+        // Cargamos los items del carrito en la propiedad $items
+        foreach ($cart as $item) {
+            $this->agregarItem($item);
+        }
+
+        // Hacemos todos los cálculos en orden
+        $this->calcularSubtotal();
+        $this->calcularDescuento();
+        $this->calcularIVA();
+        $this->calcularTotal();
+
+        // Validamos el monto mínimo de $100
+        if (!self::validarMonto($this->subtotal)) {
+            return ['success' => false, 'message' => 'El subtotal mínimo es $100'];
+        }
+
+        // Generamos el código único de la cotización
+        $this->codigo  = self::generarCodigo();
+        $this->cliente = $clienteData;
+
+        // Guardamos en la BD usando una transacción
+        // Una transacción asegura que si algo falla, no se guarda nada a medias
+        try {
+            $this->db->beginTransaction();
+
+            // Insertamos la cotización principal en la tabla quotes
+            $stmt = $this->db->prepare(
+                "INSERT INTO quotes (code, client_id, total)
+                 VALUES (?, ?, ?)"
+            );
+            $stmt->execute([
+                $this->codigo,
+                $clienteData['id'],
+                round($this->total, 2)
+            ]);
+
+            // Obtenemos el ID de la cotización recién creada
+            $quoteId = $this->db->lastInsertId();
+
+            // Insertamos cada servicio en quote_services
+            $stmtDetalle = $this->db->prepare(
+                "INSERT INTO quote_services (quote_id, service_id, quantity, unit_price)
+                 VALUES (?, ?, ?, ?)"
+            );
+
+            foreach ($this->items as $item) {
+                $stmtDetalle->execute([
+                    $quoteId,
+                    $item['id'],
+                    $item['quantity'],
+                    $item['price']
+                ]);
+            }
+
+            // Si todo salió bien confirmamos la transacción
+            $this->db->commit();
+
+            return [
+                'success'   => true,
+                'codigo'    => $this->codigo,
+                'subtotal'  => number_format($this->subtotal,  2),
+                'descuento' => number_format($this->descuento, 2),
+                'iva'       => number_format($this->iva,       2),
+                'total'     => number_format($this->total,     2)
+            ];
+        } catch (PDOException $e) {
+            // Si algo falló revertimos todo para no dejar datos a medias
+            $this->db->rollBack();
+            return ['success' => false, 'message' => 'Error al guardar la cotización'];
+        }
+    }
+
+    // ── OBTENER COTIZACIONES POR USUARIO ──────────────────────────────────
+    // Devuelve todas las cotizaciones de un usuario específico.
+    // Las usaremos en la vista de cotizaciones.
+    public function getByUserId($userId)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT q.*, 
+                    COUNT(qs.id) as cantidad_servicios
+             FROM quotes q
+             LEFT JOIN quote_services qs ON q.id = qs.quote_id
+             WHERE q.client_id = ?
+             GROUP BY q.id
+             ORDER BY q.created_at DESC"
+        );
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll();
+    }
+
+    // ── OBTENER TODAS LAS COTIZACIONES (admin) ────────────────────────────
+    // El admin puede ver todas las cotizaciones del sistema
+    public function getAll()
+    {
+        $stmt = $this->db->prepare(
+            "SELECT q.*,
+                    u.name as cliente_nombre,
+                    COUNT(qs.id) as cantidad_servicios
+             FROM quotes q
+             LEFT JOIN users u ON q.client_id = u.id
+             LEFT JOIN quote_services qs ON q.id = qs.quote_id
+             GROUP BY q.id
+             ORDER BY q.created_at DESC"
+        );
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // ── OBTENER DETALLE DE UNA COTIZACIÓN ─────────────────────────────────
+    // Devuelve los servicios incluidos en una cotización específica
+    public function getDetalle($quoteId)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT qs.*, s.title, s.category
+             FROM quote_services qs
+             JOIN services s ON qs.service_id = s.id
+             WHERE qs.quote_id = ?"
+        );
+        $stmt->execute([$quoteId]);
+        return $stmt->fetchAll();
     }
 }
