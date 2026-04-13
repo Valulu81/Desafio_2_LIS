@@ -1,19 +1,10 @@
 <?php
-// controllers/CartController.php
-// Controlador del carrito de compras.
-// Su trabajo es verificar que el usuario esté logueado,
-// leer el carrito de la sesión, calcular los totales
-// y cargar la vista del carrito con esos datos.
 
 class CartController {
 
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) session_start();
     }
-
-    // ── VISTA DEL CARRITO ─────────────────────────────────────────────────
-    // Lee el carrito de la sesión, calcula subtotal, descuento,
-    // IVA y total, y carga la vista con esos datos.
 
     public function index() {
         $this->requireLogin();
@@ -52,7 +43,7 @@ class CartController {
         require_once __DIR__ . '/../views/cart.php';
     }
 
-    // ── SEGURIDAD ─────────────────────────────────────────────────────────
+// segurida
     private function requireLogin() {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ../public/index.php?action=login');

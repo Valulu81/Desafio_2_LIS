@@ -1,9 +1,4 @@
 <?php
-// models/QuoteDetail.php
-// Esta clase representa el detalle de una cotización,
-// es decir cada servicio individual que forma parte de ella.
-// Maneja la tabla quote_services de la BD.
-
 require_once __DIR__ . '/../config/database.php';
 
 class QuoteDetail
@@ -22,7 +17,6 @@ class QuoteDetail
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // ── GETTERS ───────────────────────────────────────────────────────────
     public function getId()
     {
         return $this->id;
@@ -44,10 +38,7 @@ class QuoteDetail
         return $this->unitPrice;
     }
 
-    // ── GUARDAR DETALLE ───────────────────────────────────────────────────
-    // Inserta un servicio como parte de una cotización en quote_services.
-    // Lo usa Quote.php internamente cuando genera una cotización.
-
+    // inserta un nuevo detalle de cotización en la tabla quote_services
     public function save($quoteId, $serviceId, $quantity, $unitPrice)
     {
         $stmt = $this->db->prepare(
@@ -58,10 +49,7 @@ class QuoteDetail
         return $this->db->lastInsertId();
     }
 
-    // ── OBTENER DETALLES POR COTIZACIÓN ───────────────────────────────────
-    // Devuelve todos los servicios de una cotización específica.
-    // Hace JOIN con services para traer el nombre y categoría del servicio.
-
+    // obtiene los detalles de una cotización específica, incluyendo el título y categoría del servicio
     public function getByQuoteId($quoteId)
     {
         $stmt = $this->db->prepare(

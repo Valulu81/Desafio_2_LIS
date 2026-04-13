@@ -1,9 +1,4 @@
 <?php
-// controllers/QuoteController.php
-// Controlador de cotizaciones.
-// Se encarga de:
-// 1. Cargar la vista de cotizaciones con datos reales de la BD
-// 2. Procesar la generación de una nueva cotización via AJAX
 
 require_once __DIR__ . '/../models/Quote.php';
 
@@ -16,10 +11,6 @@ class QuoteController {
         $this->quoteModel = new Quote();
     }
 
-    // ── VISTA DE COTIZACIONES ─────────────────────────────────────────────
-    // Carga la página de cotizaciones con los datos reales.
-    // Si es admin muestra todas las cotizaciones del sistema.
-    // Si es usuario normal muestra solo las suyas.
 
     public function index() {
         $this->requireLogin();
@@ -34,10 +25,6 @@ class QuoteController {
         require_once __DIR__ . '/../views/quotes.php';
     }
 
-    // ── AJAX: PROCESAR COTIZACIÓN ─────────────────────────────────────────
-    // Recibe los datos del cliente por POST,
-    // genera la cotización con los items del carrito en sesión,
-    // guarda en BD y devuelve JSON con el resultado.
 
     public function procesarCotizacion() {
         $this->requireLogin();
@@ -77,7 +64,6 @@ class QuoteController {
         $cart = $_SESSION['cart'] ?? [];
 
         // Le pedimos al modelo que genere la cotización
-        // El modelo se encarga de validar, calcular y guardar en BD
         $resultado = $this->quoteModel->generar($clienteData, $cart);
 
         if ($resultado['success']) {
@@ -89,7 +75,6 @@ class QuoteController {
         exit;
     }
 
-    // ── SEGURIDAD ─────────────────────────────────────────────────────────
     private function requireLogin() {
         if (!isset($_SESSION['user_id'])) {
             header('Location: index.php?action=login');

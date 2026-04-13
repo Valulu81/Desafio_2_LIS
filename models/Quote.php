@@ -1,11 +1,4 @@
 <?php
-// models/Quote.php
-// Esta clase maneja todo lo relacionado a cotizaciones.
-// Se encarga de:
-// 1. Generar el código único de cotización (COT-2026-0001)
-// 2. Calcular subtotal, descuento, IVA y total
-// 3. Guardar la cotización y sus servicios en la BD
-// 4. Obtener cotizaciones para mostrarlas en la vista
 
 require_once __DIR__ . '/../config/database.php';
 
@@ -28,7 +21,6 @@ class Quote
         $this->items = []; // El carrito empieza vacío
     }
 
-    // ── GETTERS ───────────────────────────────────────────────────────────
     public function getCodigo()
     {
         return $this->codigo;
@@ -58,15 +50,13 @@ class Quote
         return $this->total;
     }
 
-    // ── AGREGAR ITEM ──────────────────────────────────────────────────────
-    // Agrega un servicio a la lista de items de la cotización
+    // sgrega item a cotizacion
     public function agregarItem($item)
     {
         $this->items[] = $item;
     }
 
-    // ── CALCULAR SUBTOTAL ─────────────────────────────────────────────────
-    // Suma precio * cantidad de todos los servicios del carrito
+    // calcula el subtotal sumando precio * cantidad de cada item
     public function calcularSubtotal()
     {
         $this->subtotal = 0;
@@ -76,11 +66,7 @@ class Quote
         return $this->subtotal;
     }
 
-    // ── CALCULAR DESCUENTO ────────────────────────────────────────────────
-    // Aplica descuento según Opción A - Descuento por Monto:
-    // $500 - $999     → 5%
-    // $1000 - $2499   → 10%
-    // $2500 o más     → 15%
+    // descuento
     public function calcularDescuento()
     {
         if ($this->subtotal >= 2500) {
@@ -95,26 +81,21 @@ class Quote
         return $this->descuento;
     }
 
-    // ── CALCULAR IVA ──────────────────────────────────────────────────────
-    // IVA del 13% aplicado sobre (subtotal - descuento)
+    //iva
     public function calcularIVA()
     {
         $this->iva = ($this->subtotal - $this->descuento) * 0.13;
         return $this->iva;
     }
 
-    // ── CALCULAR TOTAL ────────────────────────────────────────────────────
-    // Total = subtotal - descuento + IVA
+    // total
     public function calcularTotal()
     {
         $this->total = $this->subtotal - $this->descuento + $this->iva;
         return $this->total;
     }
 
-    // ── GENERAR CÓDIGO (método estático) ──────────────────────────────────
-    // Genera el código único con formato COT-2026-####
-    // Es estático porque no necesita una instancia de Quote para funcionar,
-    // simplemente consulta la BD y genera el siguiente número consecutivo
+    // codigo
     public static function generarCodigo()
     {
         $db   = Database::getInstance()->getConnection();
@@ -133,21 +114,13 @@ class Quote
         return 'COT-' . $anio . '-' . $consecutivo;
     }
 
-    // ── VALIDAR MONTO (método estático) ───────────────────────────────────
-    // Verifica que el subtotal cumpla el mínimo de $100
-    // requerido por las validaciones del proyecto
+        // minimo monto
     public static function validarMonto($subtotal)
     {
         return $subtotal >= 100;
     }
 
-    // ── GENERAR COTIZACIÓN ────────────────────────────────────────────────
-    // Este es el método principal — orquesta todo:
-    // 1. Valida los datos del cliente y el carrito
-    // 2. Hace todos los cálculos
-    // 3. Guarda en la BD
-    // 4. Devuelve el resultado
-
+    // genera cotizacion
     public function generar($clienteData, $cart)
     {
         // Validamos que el carrito no esté vacío
@@ -175,8 +148,6 @@ class Quote
         $this->codigo  = self::generarCodigo();
         $this->cliente = $clienteData;
 
-        // Guardamos en la BD usando una transacción
-        // Una transacción asegura que si algo falla, no se guarda nada a medias
         try {
             $this->db->beginTransaction();
 
@@ -227,9 +198,7 @@ class Quote
         }
     }
 
-    // ── OBTENER COTIZACIONES POR USUARIO ──────────────────────────────────
-    // Devuelve todas las cotizaciones de un usuario específico.
-    // Las usaremos en la vista de cotizaciones.
+    // cotizacion por usuario (para clientes)
     public function getByUserId($userId)
     {
         $stmt = $this->db->prepare(
@@ -245,8 +214,7 @@ class Quote
         return $stmt->fetchAll();
     }
 
-    // ── OBTENER TODAS LAS COTIZACIONES (admin) ────────────────────────────
-    // El admin puede ver todas las cotizaciones del sistema
+    // pal admin
     public function getAll()
     {
         $stmt = $this->db->prepare(
@@ -263,8 +231,7 @@ class Quote
         return $stmt->fetchAll();
     }
 
-    // ── OBTENER DETALLE DE UNA COTIZACIÓN ─────────────────────────────────
-    // Devuelve los servicios incluidos en una cotización específica
+    // servicios
     public function getDetalle($quoteId)
     {
         $stmt = $this->db->prepare(
