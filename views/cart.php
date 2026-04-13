@@ -1,12 +1,12 @@
 <?php
 session_start();
-//$usuario = $_SESSION['usuario']; 
 $usuario = [
-    'nombre' => 'Valeria Paredes',
-    'email' => 'valeria.paredes@example.com',
-    'rol' => 'admin'
-]
+    'nombre' => $_SESSION['user_name'] ?? 'Usuario',
+    'rol'    => $_SESSION['user_role'] ?? 'user'
+];
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,7 +37,7 @@ $usuario = [
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="../public/index.php?action=services">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../views/quotes.php">Cotizaciones</a></li>
                     <?php if ($usuario['rol'] === 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link" href="../views/admin_services.php">Administrar servicios</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="../public/index.php?action=admin">Administrar servicios</a></li>
                     <?php endif; ?>
                 </ul>
                 <form class="d-flex">
@@ -70,51 +70,29 @@ $usuario = [
                     <div class="title">
                         <div class="row">
                             <div class="col">
-                                <h4><b>Shopping Car3t</b></h4>
+                                <h4><b>Shopping Cart</b></h4>
                             </div>
-                            <div class="col align-self-center text-right text-muted">3 items</div>
+                            <div class="col align-self-center text-right text-muted"><?php echo count($_SESSION['cart']); ?> items</div>
                         </div>
                     </div>
-                    <div class="row border-top border-bottom">
-                        <div class="row main align-items-center">
-                            <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
-                            <div class="col">
-                                <div class="row text-muted">Shirt</div>
-                                <div class="row">Cotton T-shirt</div>
+                    <!-- items -->
+                    <?php foreach ($_SESSION['cart'] as $item): ?>
+                        <div class="row border-top border-bottom">
+                            <div class="row main align-items-center">
+                                <div class="col-2">
+                                    <img class="img-fluid" src="<?= $item['image_url'] ?>" alt="<?= $item['title'] ?>">
+                                </div>
+                                <div class="col">
+                                    <div class="row text-muted"><?= $item['title'] ?></div>
+                                    <div class="row"><?= $item['description'] ?></div>
+                                </div>
+                                <div class="col">Cantidad: <?= $item['quantity'] ?></div>
+                                <div class="col">&dollar;<?= $item['price'] ?><span class="close">&#10005;</span></div>
                             </div>
-                            <div class="col">
-                                <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                            </div>
-                            <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="row main align-items-center">
-                            <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"></div>
-                            <div class="col">
-                                <div class="row text-muted">Shirt</div>
-                                <div class="row">Cotton T-shirt</div>
-                            </div>
-                            <div class="col">
-                                <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                            </div>
-                            <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                        </div>
-                    </div>
-                    <div class="row border-top border-bottom">
-                        <div class="row main align-items-center">
-                            <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                            <div class="col">
-                                <div class="row text-muted">Shirt</div>
-                                <div class="row">Cotton T-shirt</div>
-                            </div>
-                            <div class="col">
-                                <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                            </div>
-                            <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
 
+                    <!-- parte del pago -->
                 </div>
                 <div class="col-md-4 summary">
                     <div>
@@ -123,25 +101,25 @@ $usuario = [
                     <hr>
                     <div class="row">
                         <div class="col" style="padding-left:0;">Subtotal</div>
-                        <div class="col text-right">&euro; 132.00</div>
+                        <div class="col text-right" id="subtotal">--</div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col" style="padding-left:0;">Descuento</div>
-                        <div class="col text-right">&euro; 132.00</div>
+                        <div class="col text-right" id="discount">--</div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col" style="padding-left:0;">Impuesto</div>
-                        <div class="col text-right">&euro; 132.00</div>
+                        <div class="col text-right" id="tax">--</div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col">TOTAL PRICE</div>
-                        <div class="col text-right">&euro; 137.00</div>
+                        <div class="col text-right" id="total">--</div>
                     </div>
+
                     <button class="btn fs-6">Cotizar</button>
-                    <!-- cambiandolo a rojo con bootstrap -->
                     <button class="btn mt-2 bg-danger fs-6 text">Vaciar Carrito</button>
                 </div>
             </div>
@@ -157,7 +135,7 @@ $usuario = [
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="../public/assets/scripts.js"></script>
+    <script src="../public/main.js"></script>
 </body>
 
 </html>

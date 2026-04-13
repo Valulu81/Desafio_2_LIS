@@ -60,7 +60,7 @@ $quotes = [
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="../public/index.php?action=services">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../views/quotes.php">Cotizaciones</a></li>
                     <?php if ($usuario['rol'] === 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link" href="../views/admin_services.php">Administrar servicios</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="../public/index.php?action=admin">Administrar servicios</a></li>
                     <?php endif; ?>
                 </ul>
                 <form class="d-flex">

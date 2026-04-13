@@ -45,12 +45,12 @@ class Quote
 
     public function getQuoteByCode(string $code): ?array
     {
-        $sql = "SELECT q.id, q.code, q.total, q.created_at, q.valid_until,
-                    u.name AS client_name, u.email, u.telephone, u.company,
-                    (SELECT COUNT(*) FROM quote_services WHERE quote_id = q.id) AS service_count
-                FROM quotes q
-                JOIN users u ON q.client_id = u.id
-                WHERE q.code = :code";
+        $sql = "SELECT q.id, q.client_id, q.code, q.total, q.created_at, q.valid_until,
+            u.name AS client_name, u.email, u.telephone, u.company,
+                (SELECT COUNT(*) FROM quote_services WHERE quote_id = q.id) AS service_count
+            FROM quotes q
+            JOIN users u ON q.client_id = u.id
+            WHERE q.code = :code";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['code' => $code]);
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
